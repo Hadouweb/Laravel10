@@ -26,7 +26,7 @@ Route::prefix('/blog')->group(function () {
         return Post::paginate(25);
     })->name('blog.index');
     
-    Route::get('/{slug}-{id}', function (string $slug, string $id, Request $req) {
+    Route::get('/{slug}-{id}', function (string $slug, string $id) {
         $post = Post::findOrFail($id);
         if ($post->slug !== $slug) {
             return to_route('blog.show', ['slug' => $post->slug, 'id' => $post->id]);
