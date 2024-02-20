@@ -2,17 +2,22 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\BlogFilterRequest;
 use App\Models\Post;
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class BlogController extends Controller
 {
 
-    public function index(): View
+    public function index(BlogFilterRequest $request): View
     {
+        dd($request->validated());
+
         return view('blog.index', [
             'posts' => Post::paginate(1),
         ]);
