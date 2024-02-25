@@ -18,4 +18,6 @@ class Post extends Model
         'content',
         'category'
     ];
+
+    
 }
