@@ -25,6 +25,9 @@ Route::prefix('/blog')->name('blog.')->controller(BlogController::class)->group(
 
     Route::get('/', 'index')->name('index');
 
+    Route::get('/new', 'create')->name('create');
+    Route::post('/new', 'store');
+
     Route::get('/category/{category}', 'showCategory')->name('showCategory');
     
     Route::get('/{slug}-{id}', 'show')
