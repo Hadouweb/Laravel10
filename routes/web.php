@@ -27,9 +27,9 @@ Route::prefix('/blog')->name('blog.')->controller(BlogController::class)->group(
 
     Route::get('/new', 'create')->name('create');
     Route::post('/new', 'store');
+    Route::get('/{post}/edit', 'edit')->name('edit');
+    Route::patch('/{post}/edit', 'update');
 
-    Route::get('/category/{category}', 'showCategory')->name('showCategory');
-    
     Route::get('/{slug}-{id}', 'show')
         ->where([
             'id' => '[0-9]+',

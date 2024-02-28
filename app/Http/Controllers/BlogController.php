@@ -3,7 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\BlogFilterRequest;
-use App\Http\Requests\CreatePostRequest;
+use App\Http\Requests\FormPostRequest;
+use App\Models\Category;
 use App\Models\Post;
 use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Contracts\View\View;
@@ -18,10 +19,13 @@ class BlogController extends Controller
 
     public function create(): View
     {
-        return View('blog.create');
+        $post = new Post();
+        return View('blog.create', [
+            'post' => $post
+        ]);
     }
 
-    public function store(CreatePostRequest $request)
+    public function store(FormPostRequest $request)
     {
         $post = Post::create($request->validated());
 
@@ -29,26 +33,26 @@ class BlogController extends Controller
                 ->with('success', "L'article a bien été sauvegardé");
     }
 
-    public function index(): View
+    public function edit(Post $post): View
     {
-        // Créer et sauvegarder un article
-        /*$post1 = new Post();
-        $post1->title = "Article sur les voitures";
-        $post1->slug = Str::slug($post1->title, '-');
-        $post1->content = "Lorem ipsum";
-        $post1->category = "Voiture";
-        $post1->save();*/
-
-        return view('blog.index', [
-            'posts' => Post::paginate(1),
+        return View('blog.edit', [
+            'post' => $post,
         ]);
     }
 
-    public function showCategory(string $category): RedirectResponse | View
+    public function update(Post $post, FormPostRequest $request)
     {
-        $posts = Post::where('category', $category)->paginate(1);
+        $post->update($request->validated());
+
+        return redirect()->route('blog.show', ['slug' => $post->slug, 'id' => $post->id])
+                ->with('success', "L'article a bien été modifié");
+    }
+
+    public function index(): View
+    {
+        $cat = Category::find(1);
         return view('blog.index', [
-            'posts' => $posts,
+            'posts' => Post::paginate(1),
         ]);
     }
 
