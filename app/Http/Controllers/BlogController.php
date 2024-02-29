@@ -50,7 +50,10 @@ class BlogController extends Controller
 
     public function index(): View
     {
-        $cat = Category::find(1);
+        $post = Post::find(2);
+        $post->tags();
+        dd($post->tags()->get());
+
         return view('blog.index', [
             'posts' => Post::paginate(1),
         ]);
