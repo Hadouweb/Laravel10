@@ -2,17 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\BlogFilterRequest;
 use App\Http\Requests\FormPostRequest;
-use App\Models\Category;
 use App\Models\Post;
-use Illuminate\Contracts\Pagination\Paginator;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\Rule;
-use Illuminate\Support\Str;
 
 class BlogController extends Controller
 {
