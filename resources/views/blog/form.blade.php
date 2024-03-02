@@ -24,16 +24,17 @@
     </div>
     <div class="form-group">
         <label for="category">Catégorie</label>
-        <select class="form-control" name="category">
-            @if (old('category'))
-                <option value="voiture" {{ old('category') == 'voiture' ? 'selected' : '' }}>Voiture</option>
-                <option value="blog" {{ old('category') == 'blog' ? 'selected' : '' }}>Blog</option>
-            @else
-                <option value="voiture" {{ $post->category == 'voiture' ? 'selected' : '' }}>Voiture</option>
-                <option value="blog" {{ $post->category == 'blog' ? 'selected' : '' }}>Blog</option>
-            @endif
+        <select class="form-control" id="category" name="category_id">
+            <option value="">Sélectionner une catégorie</option>
+            @foreach ($categories as $category)
+            {
+                <option @selected(old('category', $post->category_id) == $category->id) value="{{ $category->id }}">
+                    {{ $category->name }}
+                </option>
+            }
+            @endforeach
         </select>
-        @error('category')
+        @error('category_id')
             {{ $message }}
         @enderror
     </div>

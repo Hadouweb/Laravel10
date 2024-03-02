@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\FormPostRequest;
+use App\Models\Category;
 use App\Models\Post;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
@@ -30,6 +31,7 @@ class BlogController extends Controller
     {
         return View('blog.edit', [
             'post' => $post,
+            'categories' => Category::select('id', 'name')->get(),
         ]);
     }
 
@@ -43,12 +45,8 @@ class BlogController extends Controller
 
     public function index(): View
     {
-        $post = Post::find(2);
-        $post->tags();
-        dd($post->tags()->get());
-
         return view('blog.index', [
-            'posts' => Post::paginate(1),
+            'posts' => Post::with('tags', 'category')->paginate(10),
         ]);
     }
 
