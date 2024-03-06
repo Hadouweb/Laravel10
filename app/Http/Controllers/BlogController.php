@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\FormPostRequest;
 use App\Models\Category;
 use App\Models\Post;
+use App\Http\Requests\FormPostRequest;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 
