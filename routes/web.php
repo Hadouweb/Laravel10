@@ -30,6 +30,8 @@ Route::prefix('/blog')->name('blog.')->controller(BlogController::class)->group(
     Route::get('/{post}/edit', 'edit')->name('edit');
     Route::patch('/{post}/edit', 'update');
 
+    Route::get('/category/{id}', 'showCategory')->name('showCategory');
+
     Route::get('/{slug}-{id}', 'show')
         ->where([
             'id' => '[0-9]+',

@@ -8,8 +8,13 @@
         <article>
             <h2>{{ $post->title }}</h2>
             <p class="small">
+                ID : <a href="{{ route('blog.edit', ['post' => $post->id]) }}"><strong>{{ $post->id }}</strong></a>
                 @if($post->category)
-                    Catégorie : <strong>{{ $post->category?->name }}</strong>@if(!$post->tags->isEmpty()),@endif
+                    Catégorie : 
+                    <a href="{{ route('blog.showCategory', ['id' => $post->category->id]) }}">
+                        <strong>{{ $post->category?->name }}</strong>
+                    </a>
+                    @if(!$post->tags->isEmpty()),@endif
                 @endif
                 @if(!$post->tags->isEmpty())
                     Tags : 

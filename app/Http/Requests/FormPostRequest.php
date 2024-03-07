@@ -31,7 +31,8 @@ class FormPostRequest extends FormRequest
                 'regex:/^[0-9a-z\-]+$/',
                 Rule::unique('posts')->ignore($this->route()->parameter('post'))],
             'content' => ['required'],
-            'category_id' => ['required', 'exists:categories,id']
+            'category_id' => ['required', 'exists:categories,id'],
+            'tags' => ['required', 'array', 'exists:tags,id'],
         ];
     }
 

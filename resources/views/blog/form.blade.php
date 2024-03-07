@@ -1,6 +1,8 @@
 <form action="" method="post" class="vstack gap-2">
     @csrf
-    @method('PATCH')
+    @if(isset($post->id))
+        @method('PATCH')
+    @endif
     <div class="form-group">
         <label for="title">Titre</label>
         <input type="text" class="form-control" name="title" value="{{ old('title', $post->title) }}">
@@ -35,6 +37,24 @@
             @endforeach
         </select>
         @error('category_id')
+            {{ $message }}
+        @enderror
+    </div>
+    @php
+        $tagsIds = $post->tags()->pluck('id');
+    @endphp
+    <div class="form-group">
+        <label for="tag">Tag : </label>
+        <select class="form-control" id="tag" name="tags[]" multiple>
+            @foreach ($tags as $tag)
+            {
+                <option @selected($tagsIds->contains($tag->id)) value="{{ $tag->id }}">
+                    {{ $tag->name }}
+                </option>
+            }
+            @endforeach
+        </select>
+        @error('tags')
             {{ $message }}
         @enderror
     </div>
