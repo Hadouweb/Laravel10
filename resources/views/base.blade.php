@@ -19,9 +19,9 @@
 
 <body>
 
-@php
-    $routeName = request()->route()->getName();
-@endphp
+    @php
+        $routeName = request()->route()->getName();
+    @endphp
 
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary mb-4">
         <div class="container-fluid">
@@ -34,18 +34,34 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a @class(['nav-link', 'active' => str_starts_with($routeName, 'blog.')]) class="nav-link active" aria-current="page" href="{{ route('blog.index') }}">Blog</a>
+                        <a @class(['nav-link', 'active' => str_starts_with($routeName, 'blog.')]) class="nav-link active" aria-current="page"
+                            href="{{ route('blog.index') }}">Blog</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#">Link</a>
                     </li>
                 </ul>
+                <div class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    @auth
+                        {{ \Illuminate\Support\Facades\Auth::user()->name }}
+                        <form class="nav-item" action="{{ route('auth.logout') }}" method="post">
+                            @method('delete')
+                            @csrf
+                            <button class="nav-link">Se deconnecter</button>
+                        </form>
+                    @endauth
+                    @guest
+                        <div class="nav-item">
+                            <a class="nav-link" href="{{ route('auth.login') }}">Se connecter</a>
+                        </div>
+                    @endguest
+                </div>
             </div>
         </div>
     </nav>
 
     <div class="container">
-        @if(session('success'))
+        @if (session('success'))
             <div class="alert alert-success">
                 {{ session('success') }}
             </div>
