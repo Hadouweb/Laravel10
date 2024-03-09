@@ -4,13 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 /**
  * @mixin IdeHelperPost
  */
 class Post extends Model
 {
-    use HasFactory; 
+    use HasFactory;
 
     protected $fillable = [
         'title',
@@ -18,6 +19,7 @@ class Post extends Model
         'content',
         'category_id',
         'tag_id',
+        'image',
     ];
 
     public function category() {
@@ -26,5 +28,11 @@ class Post extends Model
 
     public function tags() {
         return $this->belongsToMany(Tag::class);
+    }
+
+    public function imageUrl(): string {
+        /** @var \Illuminate\Filesystem\FilesystemManager $disk */
+        $disk = Storage::disk('public');
+        return $disk->url($this->image);
     }
 }

@@ -30,7 +30,7 @@ class BlogController extends Controller
         $post->tags()->sync($request->validated('tags'));
 
         return redirect()->route('blog.show', ['slug' => $post->slug, 'id' => $post->id])
-                ->with('success', "L'article a bien été sauvegardé");
+            ->with('success', "L'article a bien été sauvegardé");
     }
 
     public function edit(Post $post): View
@@ -44,10 +44,16 @@ class BlogController extends Controller
 
     public function update(Post $post, FormPostRequest $request)
     {
-        $post->update($request->validated());
+        $data = $request->validated();
+        $image = $request->validated('image');
+        if ($image != null && !$image->getError()) {
+            $data['image'] = $image->store('blog', 'public');
+        }
+
+        $post->update($data);
         $post->tags()->sync($request->validated('tags'));
         return redirect()->route('blog.show', ['slug' => $post->slug, 'id' => $post->id])
-                ->with('success', "L'article a bien été modifié");
+            ->with('success', "L'article a bien été modifié");
     }
 
     public function index(): View
@@ -63,7 +69,7 @@ class BlogController extends Controller
         if ($post->slug !== $slug) {
             return to_route('blog.show', ['slug' => $post->slug, 'id' => $post->id]);
         }
-        
+
         return View('blog.show', [
             'post' => $post,
         ]);
@@ -71,7 +77,7 @@ class BlogController extends Controller
 
     public function showCategory(string $id): RedirectResponse | View
     {
-        $posts = Post::whereHas('category', function($query) use ($id) {
+        $posts = Post::whereHas('category', function ($query) use ($id) {
             $query->where('id', $id);
         })->paginate(10);
 
@@ -79,5 +85,4 @@ class BlogController extends Controller
             'posts' => $posts,
         ]);
     }
-
 }
